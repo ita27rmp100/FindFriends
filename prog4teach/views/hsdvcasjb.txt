@@ -1,0 +1,16 @@
+<!-- <tr>
+                      <td>دورة تعلم أساسيات الشبكات</td>
+                      <td>09 - 03 - 2023</td>
+                      <td>مجانية</td>
+                      <td>مسجلة</td>
+                      <td>
+                          <a class="btn btn-danger btnLink" href="https://twitter.com/programming_4/status/1633930739023507459?s=20" data-toggle="modal" data-target="#modal">اضغط هنا</a>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>الأندرويد</td>
+                      <td>04 - 03 - 2023</td>
+                      <td>
+                          <a class="btn btn-danger btnLink" href="https://twitter.com/programming_4/status/1632010145034035202?s=20" data-toggle="modal" data-target="#modal">اضغط هنا</a>
+                      </td>
+                  </tr> -->
