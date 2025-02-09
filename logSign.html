@@ -7,7 +7,7 @@
         <!-- link files and documents -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="/images/SendAnony.png"> 
+        <!-- <link rel="icon" href="/images/SendAnony.png">  -->
     </head>
 <body>
     <!-- The navbar -->
@@ -22,10 +22,51 @@
             </form>
         </div>
     </nav>
-    <nav>
-        <div>
-            
+    <nav class="container-fluid d-flex flex-column align-items-center p-3">
+        <!-- choose -->
+        <div class="btn-group btn-group-toggle align-self-start" data-toggle="buttons">
+            <label class="btn-outline-dark" id="login" onclick="chmod('l')">Log in</label>
+            <label class="btn-dark" id="signup" onclick="chmod('s')">Sign up</label>
         </div>
+        <!-- where one of them appear -->
+        <div class="p-2">
+            <!-- log in -->
+            <div class="border rounded p-2 center">
+                <form action="/set/login">
+                    <div class="form-group">
+                        <label for="username">User name :</label>
+                        <input type="text" name="username" class="form-control" placeholder="Enter your username with '@'">    
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password :</label>
+                        <input type="password" name="password" class="form-control" placeholder="Enter your password correctly">
+                    </div>
+                    <div class="form-check float-right">
+                        <small class="text-info float-right d-block"><a href="#">I forgot my password ?</a></small>
+                    </div>
+                    <input type="submit" value="Log in" class="btn btn-success m-1">
+                </form>
+            </div>
+                <!-- sign up -->
+            <div class="border rounded p-2">
+                <form action="/set/signup">
+                    <div class="form-group">
+                        <label for="username">User name :</label>
+                        <input type="text" name="username" class="form-control" placeholder="enter your username with '@'">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="set up a password with at leat 8-digits" minlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="checkpw">your password again :</label>
+                        <input type="password" name="checkpw" class="form-control" placeholder="enter egain the paasswod you entered above">
+                    </div>
+                    <input type="submit" value="Log in" class="btn btn-success m-1">
+                </form>
+            </div>
+        </div>
+        
     </nav>
 </body>
 </html>
