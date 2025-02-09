@@ -7,6 +7,9 @@ body{
 .navbar{
     width: 100%;
 }
+.headForms{
+    gap:5px;
+}
 /* messages list's field */
 .chat{
     display:grid;
