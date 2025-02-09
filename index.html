@@ -10,25 +10,27 @@
     <link rel="icon" href="/images/SendAnony.png"> 
 </head>
 <body>
-    <!-- The header -->
-    <header>
-
-    </header>
+    <!-- The navbar -->
+    <nav class="navbar navbar-light bg-light d-flex row justify-content-around overflow-hidden">
+        <section class="navbar-brand mb-0 h1">Chat Anonymous</section>
+        <form action="/">
+            <input type="submit" value="New Chat" class="btn btn-outline-success">
+        </form>
+    </nav>
     <!-- the chat field -->
-     <nav>
-        <div>
-            <form action="/">
-                <input type="submit" value="New Chat">
-            </form>
-            <!-- chat messages list -->
-            <div>
-                
-            </div>
+     <nav class="container-fluid chat">
+        <!-- chat messages list -->
+        <div class="p-3 msgs">
+            <!-- we'll put here ejs code when we start backend -->
         </div>
-        <div>
-            <form action="">
-                <input type="text" name="" id="">
-                <input type="submit" value="Send">
+        <div class="new">
+            <form action="/new">
+                <div class="w-100 p-2 input-group mb-3">
+                    <input type="text" name="new_msg" id="msg" class="form-control" placeholder="write new message">
+                    <div class="input-group-append">
+                        <input type="submit" value="Send" class="btn btn-success text-light">
+                    </div>
+                </div>
             </form>
         </div>
      </nav>
