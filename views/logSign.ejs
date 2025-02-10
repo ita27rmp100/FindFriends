@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <%- include('./master/headTag.ejs) %>
-        <title>SendAnony | home</title>
+        <%- include('./master/headTag.ejs') %>
+    <title>SendAnony | Visiteur</title>
     </head>
 <body>
-   <%- include('./master/navbar.ejs') %> 
+    <!-- The navbar -->
+    <%- include('./master/navbar.ejs') %>
     <nav class="container content d-flex flex-column align-items-center p-3">
         <!-- where one of them appear -->
         <div class="p-2">
-            <!-- Log in -->
             <div class="container position-relative" style="top:30px">
                 <div class="row justify-content-center align-items-center text-center">
                     <form class="card bg-light shadow" action="/sign-up" method="post">
@@ -69,7 +69,6 @@
         </div>        
     </nav>
     <!-- scripts -->
-     <!-- scrtipts -->
     <%- include('./master/scripts.ejs') %>
 </body>
 </html>
