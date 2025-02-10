@@ -27,3 +27,6 @@ body{
 }
 /* login/signup page */
     /* both setting */
+.content{
+    max-width:500px;
+}
