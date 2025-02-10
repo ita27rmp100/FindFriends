@@ -2,7 +2,9 @@
 body{
     margin:0px
 }
-
+*{
+    transition: all 500ms;
+}
 /* the navbar */
 .navbar{
     margin:0px;
