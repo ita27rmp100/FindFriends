@@ -3,11 +3,27 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+let mysql = require("mysql")
+let session = require("express-session")
 
 var indexRouter = require('./routes/index');
-var userRouter = require("./routes/logSign")
+var userRouter = require("./routes/logSign");
+const { hostname } = require('os');
 
 var app = express();
+// create connection
+let connection = mysql.createConnection({
+  host:'127.0.0.1',
+  user:'root',
+  password:'',
+  database:'ChatAno'
+})
+
+// session
+app.use(session({
+  secret:"cm91dGVz"
+}))
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
