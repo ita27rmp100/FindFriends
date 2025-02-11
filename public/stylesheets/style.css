@@ -25,8 +25,3 @@ body{
     position: relative;
     bottom: 5px;
 }
-/* login/signup page */
-    /* both setting */
-.content{
-    max-width:500px;
-}
