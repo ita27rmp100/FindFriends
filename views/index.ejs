@@ -7,22 +7,25 @@
 <body>
     <%- include('./master/navbar.ejs') %>
     <!-- the chat field -->
-     <nav class="container-fluid chat">
-        <!-- chat messages list -->
-        <div class="p-3 msgs">
-            <!-- we'll put here ejs code when we start backend -->
-        </div>
-        <div class="new">
-            <form action="/new">
-                <div class="w-100 p-2 input-group mb-3">
-                    <input type="text" name="new_msg" id="msg" class="form-control" placeholder="write new message">
-                    <div class="input-group-append">
-                        <input type="submit" value="Send" class="btn btn-success text-light">
-                    </div>
+    <nav class="container-fluid chat">
+    <!-- chat messages list -->
+    <div class="p-3 msgs">
+        <!-- we'll put here ejs code when we start backend -->
+        <!-- Enter your name in during the current session chats -->
+        <%- formName %>
+    </div>
+    <div class="new">
+        <form action="/new">
+            <div class="w-100 p-2 input-group mb-3">
+                <input type="text" name="new_msg" id="msg" class="form-control" placeholder="write new message">
+                <div class="input-group-append">
+                    <input type="submit" value="Send" class="btn btn-success text-light">
                 </div>
-            </form>
-        </div>
-     </nav>
+            </div>
+        </form>
+    </div>
+    </nav>
+    
     <!-- scrtipts -->
     <%- include('./master/scripts.ejs') %>
 </body>

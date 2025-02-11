@@ -4,7 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 let mysql = require("mysql")
-let session = require("express-session")
+let session = require("express-session");
+let requesIP = require("request-ip");
+const http = require("http")
 
 var indexRouter = require('./routes/index');
 const { hostname } = require('os');
@@ -17,13 +19,30 @@ let connection = mysql.createConnection({
   password:'',
   database:'ChatAno'
 })
-
+// get current users list 
+let cu = []
+connection.query("select * from currentUsers",function(err,result){
+  for(let i=0;i<Object.keys(result).length;i++){
+    cu.push(result[i].username)
+  }
+})
 // session
 app.use(session({
   secret:"cm91dGVz"
 }))
 
-
+app.post('/',(req,res)=>{
+  let body = req.body
+  if(cu.includes(body.username)){
+    alert("This username is currently in use, try again")
+  }
+  else{
+    connection.query("insert into currentUsers",function(err,result){
+      alert("Added successfully ... We are searching now for someone to chat with")
+    })
+  }
+  res.redirect('/')
+})
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
