@@ -21,13 +21,24 @@ let connection = mysql.createConnection({
   password:'',
   database:'ChatAno'
 })
-// get current users list 
-let cu = []
-connection.query("select * from currentUsers",function(err,result){
-  for(let i=0;i<Object.keys(result).length;i++){
-    cu.push(result[i].username)
+// FUNCTIONS
+  // get current users list 
+  var currentUsers = [] 
+  function GetOnlineUsers(){
+    currentUsers = []
+    connection.query('select * from currentUsers',function(error,results,fields) {
+    currentUsers = results.map(row => row.username)
+  })
   }
-})
+  function GetPartner(){
+    GetOnlineUsers()
+    currentUsers.splice(currentUsers.indexOf(username))
+    let random = Math.floor(Math.random()*currentUsers.length)
+    console.log(currentUsers.length)
+    let partner = currentUsers[random]
+    return partner
+  }
+GetOnlineUsers()
 // session
 app.use(session({
   secret:"cm91dGVz"
@@ -41,11 +52,13 @@ app.post('/',(req,res)=>{
   req.on('end',()=>{
     result = qs.parse(body)
     username = result.username
-    if(cu.includes(username)){
+    console.log(currentUsers)
+    if(currentUsers.includes(username)){
       notifier.notify({
         title : "Added unsuccessfully",
         message:"This username is currently in use, try again."
       })
+      res.redirect('/')
     }
     else{
       connection.query(`insert into currentUsers() value("${username}")`)
@@ -55,9 +68,13 @@ app.post('/',(req,res)=>{
         message:"We are searching now for someone to chat with"
       })
       req.session.tempname = username
+      // the operation of finding a user to chat with
+      res.redirect(`/${GetPartner()}`)
     }
-    res.redirect('/')
   })
+})
+app.post('/new',(req,res)=>{
+  res.redirect(`/${GetPartner()}`)
 })
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
