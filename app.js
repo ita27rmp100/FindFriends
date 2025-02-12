@@ -40,19 +40,21 @@ app.post('/',(req,res)=>{
   })
   req.on('end',()=>{
     result = qs.parse(body)
-    if(cu.includes(result.username)){
+    username = result.username
+    if(cu.includes(username)){
       notifier.notify({
         title : "Added unsuccessfully",
         message:"This username is currently in use, try again."
       })
     }
     else{
-      connection.query(`insert into currentUsers() value("${result.username}")`)
-      connection.query(`insert into AllVisitorsNames() value("${result.username}","${clientIP}")`)
+      connection.query(`insert into currentUsers() value("${username}")`)
+      connection.query(`insert into AllVisitorsNames() value("${username}","${clientIP}")`)
       notifier.notify({
         title : "Added successfully",
         message:"We are searching now for someone to chat with"
       })
+      req.session.tempname = username
     }
     res.redirect('/')
   })
