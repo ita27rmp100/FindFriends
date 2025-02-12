@@ -7,7 +7,8 @@ let mysql = require("mysql")
 let session = require("express-session");
 let requesIP = require("request-ip");
 const http = require("http")
-const qs = require("querystring")
+const qs = require("querystring");
+const notifier = require("node-notifier")
 
 var indexRouter = require('./routes/index');
 const { hostname } = require('os');
@@ -43,11 +44,11 @@ app.post('/',(req,res)=>{
       console.log("This username is currently in use, try again")
     }
     else{
-      connection.query(`insert into currentUsers() value("${result.username}")`,function(err,result){
-        console.log("Added successfully ... We are searching now for someone to chat with")
-      })
-      connection.query(`insert into AllVisitorsNames() value("${result.username}","${clientIP}")`,function(err,result){
-        console.log("Added successfully ... We are searching now for someone to chat with")
+      connection.query(`insert into currentUsers() value("${result.username}")`)
+      connection.query(`insert into AllVisitorsNames() value("${result.username}","${clientIP}")`)
+      notifier.notify({
+        title : "Added successfully",
+        message:"We are searching now for someone to chat with"
       })
     }
     res.redirect('/')
