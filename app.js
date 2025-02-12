@@ -7,6 +7,7 @@ let mysql = require("mysql")
 let session = require("express-session");
 let requesIP = require("request-ip");
 const http = require("http")
+const qs = require("querystring")
 
 var indexRouter = require('./routes/index');
 const { hostname } = require('os');
@@ -32,15 +33,25 @@ app.use(session({
 }))
 
 app.post('/',(req,res)=>{
-  let body = req.body
-  if(cu.includes(body.username)){
-    alert("This username is currently in use, try again")
-  }
-  else{
-    connection.query("insert into currentUsers",function(err,result){
-      alert("Added successfully ... We are searching now for someone to chat with")
-    })
-  }
+  let body = '' , clientIP = requesIP.getClientIp(req) , result
+  req.on("data",(data)=>{
+    body += data
+  })
+  req.on('end',()=>{
+    result = qs.parse(body)
+    console.log(result[0])
+  })
+  // if(cu.includes(body.username)){
+  //   alert("This username is currently in use, try again")
+  // }
+  // else{
+  //   connection.query(`insert into currentUsers() value("${body.username}")`,function(err,result){
+  //     alert("Added successfully ... We are searching now for someone to chat with")
+  //   })
+  //   connection.query(`insert into AllVisitorsNames() value("${body.username}","${clientIP}")`,function(err,result){
+  //     alert("Added successfully ... We are searching now for someone to chat with")
+  //   })
+  // }
   res.redirect('/')
 })
 // view engine setup
