@@ -41,7 +41,10 @@ app.post('/',(req,res)=>{
   req.on('end',()=>{
     result = qs.parse(body)
     if(cu.includes(result.username)){
-      console.log("This username is currently in use, try again")
+      notifier.notify({
+        title : "Added unsuccessfully",
+        message:"This username is currently in use, try again."
+      })
     }
     else{
       connection.query(`insert into currentUsers() value("${result.username}")`)
