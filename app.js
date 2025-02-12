@@ -39,20 +39,19 @@ app.post('/',(req,res)=>{
   })
   req.on('end',()=>{
     result = qs.parse(body)
-    console.log(result[0])
+    if(cu.includes(result.username)){
+      console.log("This username is currently in use, try again")
+    }
+    else{
+      connection.query(`insert into currentUsers() value("${result.username}")`,function(err,result){
+        console.log("Added successfully ... We are searching now for someone to chat with")
+      })
+      connection.query(`insert into AllVisitorsNames() value("${result.username}","${clientIP}")`,function(err,result){
+        console.log("Added successfully ... We are searching now for someone to chat with")
+      })
+    }
+    res.redirect('/')
   })
-  // if(cu.includes(body.username)){
-  //   alert("This username is currently in use, try again")
-  // }
-  // else{
-  //   connection.query(`insert into currentUsers() value("${body.username}")`,function(err,result){
-  //     alert("Added successfully ... We are searching now for someone to chat with")
-  //   })
-  //   connection.query(`insert into AllVisitorsNames() value("${body.username}","${clientIP}")`,function(err,result){
-  //     alert("Added successfully ... We are searching now for someone to chat with")
-  //   })
-  // }
-  res.redirect('/')
 })
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
