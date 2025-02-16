@@ -44,7 +44,6 @@ app.post('/',(req,res)=>{
   req.on('end',()=>{
     result = qs.parse(body)
     username = result.username
-    console.log(currentUsers)
     if(currentUsers.includes(username)){
       notifier.notify({
         title : "Added unsuccessfully",
@@ -66,7 +65,6 @@ app.post('/',(req,res)=>{
       setTimeout(()=>{
         currentUsers.splice(currentUsers.indexOf(username))
         let random = Math.floor(Math.random()*currentUsers.length)
-        console.log(currentUsers.length)
         partner = currentUsers[random]
         res.redirect(`/${partner}`)
       },1000)
@@ -74,7 +72,15 @@ app.post('/',(req,res)=>{
   })
 })
 app.post('/new',(req,res)=>{
-  res.redirect(`/${GetPartner()}`)
+  GetOnlineUsers()
+  let partner = ''
+  setTimeout(()=>{
+    currentUsers.splice(currentUsers.indexOf(req.session.tempname))
+    currentUsers.splice(currentUsers.indexOf(req.params.chatwith))
+    let random = Math.floor(Math.random()*currentUsers.length)
+    partner = currentUsers[random]
+    res.redirect(`/${partner}`)
+  },1000)
 })
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
