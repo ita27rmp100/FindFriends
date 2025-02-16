@@ -30,14 +30,6 @@ let connection = mysql.createConnection({
     currentUsers = results.map(row => row.username)
   })
   }
-  function GetPartner(){
-    GetOnlineUsers()
-    currentUsers.splice(currentUsers.indexOf(username))
-    let random = Math.floor(Math.random()*currentUsers.length)
-    console.log(currentUsers.length)
-    let partner = currentUsers[random]
-    return partner
-  }
 GetOnlineUsers()
 // session
 app.use(session({
@@ -69,7 +61,15 @@ app.post('/',(req,res)=>{
       })
       req.session.tempname = username
       // the operation of finding a user to chat with
-      res.redirect(`/${GetPartner()}`)
+      GetOnlineUsers()
+      let partner = ''
+      setTimeout(()=>{
+        currentUsers.splice(currentUsers.indexOf(username))
+        let random = Math.floor(Math.random()*currentUsers.length)
+        console.log(currentUsers.length)
+        partner = currentUsers[random]
+        res.redirect(`/${partner}`)
+      },1000)
     }
   })
 })
