@@ -9,9 +9,11 @@ let requesIP = require("request-ip");
 const http = require("http")
 const qs = require("querystring");
 const notifier = require("node-notifier")
+const upload = require("express-fileupload")
 
-var indexRouter = require('./routes/index');
-const { hostname } = require('os');
+// routes
+const indexRouter = require('./routes/index');
+const friendsRouter = require("./routes/friends")
 
 var app = express();
 // create connection
@@ -24,57 +26,60 @@ let connection = mysql.createConnection({
 // FUNCTIONS
   
 
-// session
+// session & umpload mildware
 app.use(session({
   secret:"cm91dGVz"
 }))
-
+app.use(upload())
 app.post('/',(req,res)=>{
-  let body = '' , clientIP = requesIP.getClientIp(req) , result
-  req.on("data",(data)=>{
-    body += data
-  })
-  req.on('end',()=>{
-    result = qs.parse(body)
-    username = result.username
-    if(currentUsers.includes(username)){
-      notifier.notify({
-        title : "Added unsuccessfully",
-        message:"This username is currently in use, try again."
-      })
-      res.redirect('/')
-    }
-    else{
-      connection.query(`insert into currentUsers() value("${username}")`)
-      connection.query(`insert into AllVisitorsNames() value("${username}","${clientIP}")`)
-      notifier.notify({
-        title : "Added successfully",
-        message:"We are searching now for someone to chat with"
-      })
-      req.session.tempname = username
-      // the operation of finding a user to chat with
-      GetOnlineUsers()
-      let partner = ''
-      setTimeout(()=>{
-        currentUsers.splice(currentUsers.indexOf(username))
-        let random = Math.floor(Math.random()*currentUsers.length)
-        partner = currentUsers[random]
-        res.redirect(`/${partner}`)
-      },1000)
-    }
-  })
+  let body = req.body
+  let file = req.files
+  console.log(body)
+  // let body = '' , clientIP = requesIP.getClientIp(req) , result
+  // req.on("data",(data)=>{
+  //   body += data
+  // })
+  // req.on('end',()=>{
+  //   result = qs.parse(body)
+  //   username = result.username
+  //   if(currentUsers.includes(username)){
+  //     notifier.notify({
+  //       title : "Added unsuccessfully",
+  //       message:"This username is currently in use, try again."
+  //     })
+  //     res.redirect('/')
+  //   }
+  //   else{
+  //     connection.query(`insert into currentUsers() value("${username}")`)
+  //     connection.query(`insert into AllVisitorsNames() value("${username}","${clientIP}")`)
+  //     notifier.notify({
+  //       title : "Added successfully",
+  //       message:"We are searching now for someone to chat with"
+  //     })
+  //     req.session.tempname = username
+  //     // the operation of finding a user to chat with
+  //     GetOnlineUsers()
+  //     let partner = ''
+  //     setTimeout(()=>{
+  //       currentUsers.splice(currentUsers.indexOf(username))
+  //       let random = Math.floor(Math.random()*currentUsers.length)
+  //       partner = currentUsers[random]
+  //       res.redirect(`/${partner}`)
+  //     },1000)
+  //   }
+  // })
 })
-app.post('/new',(req,res)=>{
-  GetOnlineUsers()
-  let partner = ''
-  setTimeout(()=>{
-    currentUsers.splice(currentUsers.indexOf(req.session.tempname))
-    currentUsers.splice(currentUsers.indexOf(req.params.chatwith))
-    let random = Math.floor(Math.random()*currentUsers.length)
-    partner = currentUsers[random]
-    res.redirect(`/${partner}`)
-  },1000)
-})
+// app.post('/new',(req,res)=>{
+//   GetOnlineUsers()
+//   let partner = ''
+//   setTimeout(()=>{
+//     currentUsers.splice(currentUsers.indexOf(req.session.tempname))
+//     currentUsers.splice(currentUsers.indexOf(req.params.chatwith))
+//     let random = Math.floor(Math.random()*currentUsers.length)
+//     partner = currentUsers[random]
+//     res.redirect(`/${partner}`)
+//   },1000)
+// })
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -85,7 +90,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// use routes
 app.use('/', indexRouter);
+app.use('/friends',friendsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
