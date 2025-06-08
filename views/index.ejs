@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="icon" href="/images/SendAnony.png"> 
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=Jersey+15&family=Parkinsans:wght@300..800&family=Rubik+Wet+Paint&family=Rubik:ital,wght@0,300..900;1,300..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <!-- title -->
     <title>Find Friends</title>
 </head>
 <body>
@@ -15,12 +20,12 @@
         <section class="navbar-brand mb-0 h1">Find Friends</section>
         <div class="d-flex row headForms">
             <form action="/new" method="post">
-                <input type="submit" value="New Chat" class="btn btn-outline-success">
+                <input type="submit" value="History" class="btn btn-outline-success">
             </form>
         </div>
     </nav>
     <!-- the chat field -->
-    <nav class="container-fluid chat">
+    <nav class="container chat">
         <!-- chat messages list -->
         <div class="p-3 msgs">
             <!-- we'll put here ejs code when we start backend -->
@@ -34,7 +39,7 @@
                             <div class="input-group-append InputTitle">
                                 <span class="input-group-text" id="name">Name</span>
                             </div>
-                            <input type="text" maxlength="30" placeholder="Nick/Real name ..." name="username" class="form-control">
+                            <input type="text" maxlength="30" placeholder="Enter your name (nick name) ..." name="username" class="form-control">
                         </div>
                         <!-- Gender -->
                         <div class="input-group mb-3">
@@ -46,25 +51,60 @@
                                 <option value="female">Female</option>
                             </select>
                         </div>
-                        <!-- contact -->
+                        <!-- country -->
                         <div class="input-group mb-3">
                             <div class="input-group-append InputTitle">
-                                <span class="input-group-text" id="Gender">Gender</span>
+                                <span class="input-group-text" id="Gender">Country</span>
                             </div>
-                            <select name="gender" id="gender" class="form-control">
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                            <select name="gender" id="country" class="form-control">
                             </select>
                         </div>
-                        <!-- country -->
-                         <div class="input-group mb-3">
-                            <div class="input-group-append InputTitle">
-                                <span class="input-group-text" id="Gender">Gender</span>
-                            </div>
-                            <select name="gender" id="gender" class="form-control">
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                        <!-- contact -->
+                        <div class="input-group mb-3">
+                            <select name="contact-src" id="contact-src" class="form-control pr-2 rounded-pill shadow-sm" style="max-width: 140px; font-weight: 500;" aria-label="Contact Method" required aria-placeholder="select platform">
+                                <option value="facebook">FaceBook</option>
+                                <option value="instagram">Instagram</option>
+                                <option value="telegram">Telegram</option>
+                                <option value="whatsapp">WhatsApp</option>
+                                <option value="snapchat">Snapchat</option>
                             </select>
+                            <input type="text" maxlength="50" placeholder="Your account or link" name="contact-link" class="form-control" aria-label="Contact Account" required>
+                        </div>
+                        <!-- language -->
+                         <div class="input-group mb-3 d-block text-left">
+                            <label for="langs" class="text">I speak : </label>
+                            <div class="d-flex flex-wrap">
+                                <div class="custom-control custom-checkbox mr-3">
+                                    <input type="checkbox" class="custom-control-input" name="langs" id="lang-ar" value="Arabic">
+                                    <label class="custom-control-label" for="lang-ar">
+                                        <img src="https://flagcdn.com/16x12/dz.png" alt="Arabic" class="mr-1"> Arabic
+                                    </label>
+                                </div>
+                                <div class="custom-control custom-checkbox mr-3">
+                                    <input type="checkbox" class="custom-control-input" name="langs" id="lang-en" value="English">
+                                    <label class="custom-control-label" for="lang-en">
+                                        <img src="https://flagcdn.com/16x12/us.png" alt="English" class="mr-1"> English
+                                    </label>
+                                </div>
+                                <div class="custom-control custom-checkbox mr-3">
+                                    <input type="checkbox" class="custom-control-input" name="langs" id="lang-fr" value="French">
+                                    <label class="custom-control-label" for="lang-fr">
+                                        <img src="https://flagcdn.com/16x12/fr.png" alt="French" class="mr-1"> French
+                                    </label>
+                                </div>
+                                <div class="custom-control custom-checkbox mr-3">
+                                    <input type="checkbox" class="custom-control-input" name="langs" id="lang-es" value="Spanish">
+                                    <label class="custom-control-label" for="lang-es">
+                                        <img src="https://flagcdn.com/16x12/es.png" alt="Spanish" class="mr-1"> Spanish
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- topics -->
+                         <div class="input-group mb-3 d-block text-left">
+                            <label for="topics" class="text">Interested topics : </label>
+                            <div class="d-flex flex-wrap" id="topics">
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer justify-content-center log">
@@ -76,6 +116,7 @@
     </nav>
     <!-- scrtipts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/javascripts/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="/javascripts/script.js"></script>
 </body>
