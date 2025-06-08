@@ -24,9 +24,7 @@ router.get('/:chatwith?', function(req, res, next) {
   // else{
   //   formName = ''
   // }
-  res.render("index",{
-    formName
-  })
+  res.render("index")
 });
 
 module.exports = router;
