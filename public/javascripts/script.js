@@ -25,7 +25,7 @@ topics.forEach(e => {
     let lower_e = e.replace(e[0],e[0].toLowerCase())
     $("#topics").append(`
         <div class="custom-control custom-checkbox mr-3">
-            <input type="checkbox" class="custom-control-input" name="langs" id="${lower_e}" value="${lower_e}">
+            <input type="checkbox" class="custom-control-input" name="topics" id="${lower_e}" value="${lower_e}">
             <label class="custom-control-label" for="${lower_e}">
                 ${e}
             </label>

@@ -32,9 +32,20 @@ app.use(session({
 }))
 app.use(upload())
 app.post('/',(req,res)=>{
+  // submited information
   let body = req.body
-  let file = req.files
-  console.log(body)
+  let user = {
+    username:body.username,
+    gender:body.gender,
+    country:body.country,
+    link:body['contact-link'],
+    topics:body.topics
+  }
+  console.log(user)
+  // uploaded image=
+  let file = req.files.avatar
+  let filename = file.name
+  file.mv("./public/images/"+filename)
   // let body = '' , clientIP = requesIP.getClientIp(req) , result
   // req.on("data",(data)=>{
   //   body += data
