@@ -22,15 +22,8 @@ let connection = mysql.createConnection({
   database:'ChatAno'
 })
 // FUNCTIONS
-  // get current users list 
-  var currentUsers = [] 
-  function GetOnlineUsers(){
-    currentUsers = []
-    connection.query('select * from currentUsers',function(error,results,fields) {
-    currentUsers = results.map(row => row.username)
-  })
-  }
-GetOnlineUsers()
+  
+
 // session
 app.use(session({
   secret:"cm91dGVz"
