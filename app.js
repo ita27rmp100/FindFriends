@@ -13,7 +13,8 @@ const upload = require("express-fileupload")
 
 // routes
 const indexRouter = require('./routes/index');
-const friendsRouter = require("./routes/friends")
+const friendsRouter = require("./routes/friends");
+const { json } = require('stream/consumers');
 
 var app = express();
 // create connection
@@ -38,11 +39,17 @@ app.use(upload())
 
 // forms' post
 app.post('/friends',(req,res)=>{
+  // submited image
+  // uploaded image=
+  let file = req.files.avatar
+  let filename = file.name
+  file.mv("./public/images/"+filename)
   // submited information
   let body = req.body
   console.log(body)
   let user = {
     username:body.username,
+    avatar:filename,
     gender:body.gender,
     country:body.country,
     link:body['contact-link'],
@@ -50,46 +57,32 @@ app.post('/friends',(req,res)=>{
     topics:body.topics
   }
   connection.query(`select * from visitors where usernmae = '${user.username}'`,(err,result,fields)=>{
-    if(result == undefined){}
+    if(result == undefined){
+      connection.query(
+        `INSERT INTO visitors() VALUES (?,?,?,?,?,?,?)`,
+        [
+          user.username,
+          user.avatar,
+          user.gender,
+          user.country,
+          user.link,
+          JSON.stringify(user.langs),
+          JSON.stringify(user.topics)
+        ],
+        (err, result) => {
+          if (err) {
+            console.error(err);
+            res.send("Database error");
+          } else {
+            res.send("User added successfully");
+          }
+        }
+      )
+    }
+    else res.send("Error, This username is taken")
   })
   console.log(user)
-  // uploaded image=
-  let file = req.files.avatar
-  let filename = file.name
-  file.mv("./public/images/"+filename)
-  // let body = '' , clientIP = requesIP.getClientIp(req) , result
-  // req.on("data",(data)=>{
-  //   body += data
-  // })
-  // req.on('end',()=>{
-  //   result = qs.parse(body)
-  //   username = result.username
-  //   if(currentUsers.includes(username)){
-  //     notifier.notify({
-  //       title : "Added unsuccessfully",
-  //       message:"This username is currently in use, try again."
-  //     })
-  //     res.redirect('/')
-  //   }
-  //   else{
-  //     connection.query(`insert into currentUsers() value("${username}")`)
-  //     connection.query(`insert into AllVisitorsNames() value("${username}","${clientIP}")`)
-  //     notifier.notify({
-  //       title : "Added successfully",
-  //       message:"We are searching now for someone to chat with"
-  //     })
-  //     req.session.tempname = username
-  //     // the operation of finding a user to chat with
-  //     GetOnlineUsers()
-  //     let partner = ''
-  //     setTimeout(()=>{
-  //       currentUsers.splice(currentUsers.indexOf(username))
-  //       let random = Math.floor(Math.random()*currentUsers.length)
-  //       partner = currentUsers[random]
-  //       res.redirect(`/${partner}`)
-  //     },1000)
-  //   }
-  // })
+  
 })
 app.post('/',(req,res)=>{
   let currCookies = req.cookies
