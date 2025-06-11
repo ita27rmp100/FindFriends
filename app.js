@@ -34,11 +34,13 @@ app.use(upload())
 app.post('/',(req,res)=>{
   // submited information
   let body = req.body
+  console.log(body)
   let user = {
     username:body.username,
     gender:body.gender,
     country:body.country,
     link:body['contact-link'],
+    langs:body.langs,
     topics:body.topics
   }
   console.log(user)
