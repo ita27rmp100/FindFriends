@@ -26,12 +26,18 @@ let connection = mysql.createConnection({
 // FUNCTIONS
   
 
-// session & umpload mildware
+// milldware
 app.use(session({
   secret:"cm91dGVz"
 }))
+
+app.use(cookieParser())
+
 app.use(upload())
-app.post('/',(req,res)=>{
+
+
+// forms' post
+app.post('/friends',(req,res)=>{
   // submited information
   let body = req.body
   console.log(body)
@@ -43,6 +49,9 @@ app.post('/',(req,res)=>{
     langs:body.langs,
     topics:body.topics
   }
+  connection.query(`select * from visitors where usernmae = '${user.username}'`,(err,result,fields)=>{
+    if(result == undefined){}
+  })
   console.log(user)
   // uploaded image=
   let file = req.files.avatar
@@ -82,17 +91,12 @@ app.post('/',(req,res)=>{
   //   }
   // })
 })
-// app.post('/new',(req,res)=>{
-//   GetOnlineUsers()
-//   let partner = ''
-//   setTimeout(()=>{
-//     currentUsers.splice(currentUsers.indexOf(req.session.tempname))
-//     currentUsers.splice(currentUsers.indexOf(req.params.chatwith))
-//     let random = Math.floor(Math.random()*currentUsers.length)
-//     partner = currentUsers[random]
-//     res.redirect(`/${partner}`)
-//   },1000)
-// })
+app.post('/',(req,res)=>{
+  let currCookies = req.cookies
+  console.log(currCookies)
+})
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
