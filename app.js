@@ -25,7 +25,11 @@ let connection = mysql.createConnection({
   database:'ChatAno'
 })
 // FUNCTIONS
-  
+function errorMSG(msg){
+  return `<div style="box-shadow: 0px 1px 2px 0px grey; padding: 10px;border-left: 5px solid red;font-family: cursive;">
+            ${msg}
+          </div>`
+}  
 
 // milldware
 app.use(session({
@@ -37,6 +41,7 @@ app.use(cookieParser())
 app.use(upload())
 
 
+
 // forms' post
 app.post('/friends',(req,res)=>{
   // submited image
@@ -46,7 +51,6 @@ app.post('/friends',(req,res)=>{
   file.mv("./public/images/"+filename)
   // submited information
   let body = req.body
-  console.log(body)
   let user = {
     username:body.username,
     avatar:filename,
@@ -57,32 +61,31 @@ app.post('/friends',(req,res)=>{
     topics:body.topics
   }
   connection.query(`select * from visitors where usernmae = '${user.username}'`,(err,result,fields)=>{
-    if(result == undefined){
-      connection.query(
-        `INSERT INTO visitors() VALUES (?,?,?,?,?,?,?)`,
-        [
-          user.username,
-          user.avatar,
-          user.gender,
-          user.country,
-          user.link,
-          JSON.stringify(user.langs),
-          JSON.stringify(user.topics)
-        ],
-        (err, result) => {
-          if (err) {
-            console.error(err);
-            res.send("Database error");
-          } else {
-            res.send("User added successfully");
-          }
+    connection.query(
+      `INSERT INTO visitors() VALUES (?,?,?,?,?,?,?)`,
+      [
+        user.username,
+        user.avatar,
+        user.gender,
+        user.country,
+        user.link,
+        JSON.stringify(user.langs),
+        JSON.stringify(user.topics)
+      ],
+      (err, result) => {
+        if (err) {
+            if (err.code === 'ER_DUP_ENTRY') {
+              res.send(errorMSG("This usernmae is teken"))
+            } else {
+              res.send(errorMSG("Database Error"))
+            }
+        } else {
+          console.log("User added successfully");
+          res.cookie('user',JSON.stringify(user),{httpOnly: true, maxAge: 86400*1000*365});
         }
-      )
-    }
-    else res.send("Error, This username is taken")
+      }
+    )
   })
-  console.log(user)
-  
 })
 app.post('/',(req,res)=>{
   let currCookies = req.cookies
