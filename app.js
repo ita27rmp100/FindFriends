@@ -6,27 +6,37 @@ const logger = require('morgan');
 const mysql = require("mysql")
 const session = require("express-session")
 const qs = require("querystring")
+const upload = require("express-fileupload")
 // routes
 const indexRouter = require('./routes/index');
 const LoginSignup = require('./routes/login_signup');
-const { json } = require('stream/consumers');
+const settingsRouter = require('./routes/settings');
 
 const app = express();
 
-// express session
+// DB connection
+let connection = mysql.createConnection({
+  password:"",
+  user:"root",
+  host:"127.0.0.1",
+  database:"FindFriends"
+}) 
+//Functions
+function errorMSG(msg){
+  return `<div style="box-shadow: 0px 1px 2px 0px grey; padding: 10px;border-left: 5px solid red;font-family: cursive;">
+            ${msg}
+          </div>`
+}
+// milldwares 
 app.use(session({
   secret: 'your_secret_key',
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }
 }));
-// DB connection
-let connection = mysql.createConnection({
-  password:"",
-  user:"root",
-  host:"127.0.0.1",
-  database:"template_db"
-}) 
+app.use(cookieParser())
+app.use(upload())
+
 // login & signup
   // SignUp
 app.post('/logsign/signup',(req,res)=>{
@@ -96,8 +106,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/logsign', LoginSignup);
-
+app.use('/logsign',LoginSignup);
+app.use('/settings',settingsRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

@@ -1,8 +1,9 @@
 -- Creation
-create database ChatAno;
-use ChatAno;
-create table visitors(
+create database FindFriends;
+use FindFriends;
+create table users(
     username varchar(30) primary key,
+    password varchar(255),
     img varchar(64),
     gender enum('male','female'),
     country varchar(20),
@@ -11,6 +12,6 @@ create table visitors(
     topics varchar(255)
 );
 -- Delete the undefined elements ( in case there is an error )
-delete from visitors where username = "undefined";
+delete from users where username = "undefined";
 -- To test
-select * from visitors;
+select * from users;
