@@ -3,8 +3,14 @@ const router = express.Router();
 const mysql = require("mysql")
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render("settings")
+router.get('/:exten?', function(req, res, next) {
+  if(req.session.login){
+    res.render("settings")
+  }
+  else{
+    res.redirect("/logsign")
+  }
 });
+
 
 module.exports = router;

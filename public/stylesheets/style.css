@@ -1,4 +1,7 @@
 /* general tags */
+body{
+    margin:0px;
+}
 *{
     font-family: "Parkinsans", sans-serif;
     font-optical-sizing: auto;
@@ -27,4 +30,30 @@ p{
 /* login/signup part */
 .content{
     max-width:500px;
+}
+
+
+                                            /* Other pages */
+
+/* general styles */
+
+/* the navbar */
+.navbar{
+    margin:0px;
+}
+.headForms{
+    gap:5px;
+}
+/* messages list's field */
+.chat{
+    display:grid;
+    grid-template-rows: auto 55px;
+    height: 90vh;
+}
+.msgs{
+    height: 100%;
+}
+.set-up{
+    position: relative;
+    bottom: 5px;
 }

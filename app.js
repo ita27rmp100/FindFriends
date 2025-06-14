@@ -46,10 +46,10 @@ app.post('/logsign/signup',(req,res)=>{
   })
   req.on('end',()=>{
       let result = qs.parse(body)
-      connection.query(`select * from users where username = '${result.username}'`,(error,results,fields)=>{
+      connection.query(`select username,password from users where username = '${result.username}'`,(error,results,fields)=>{
         if(results == undefined && result.password_sign==result.ConfirmPassword){
           connection.query(`
-            insert into users()
+            insert into users(username,password)
             value('${result.username_sign}','${result.password_sign}','${result.start_day.replaceAll("-",'/')}','0 Days',1)`,
             (error,RES,fields)=>{
               req.session.login = true

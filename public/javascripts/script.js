@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
 customElements.define("suggested-friend",class extends HTMLElement{
     connectedCallback(){
         this.getHTML = 
-        `<div class="card shadow-s m-4 p-2" style="width: 400px;">
+        `<div class="card shadow-s m-4 p-2">
             <div class="card-body p-3">
                 <div class="d-flex align-items-center mb-3">
                     <img src="${this.getAttribute("img")}" alt="User Avatar" class="rounded-circle mr-3" id="template-avatar" width="48" height="48">

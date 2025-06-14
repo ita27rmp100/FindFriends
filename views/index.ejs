@@ -10,10 +10,8 @@
         <section class="navbar-brand mb-0 h1 text-danger">Template</section>
     </nav>
     <!-- logout-button -->
-    <nav class="container p-0 d-flex justify-content-center align-items-center" style="height:80vh">
-        <form action="/logsign" method="post">
-            <input type="submit" value="Log Out" class="btn btn-danger">
-        </form>
+    <nav class="container p-0 d-flex justify-content-center align-items-center list">
+        <%-friendsList%>
     </nav>
     <!-- scripts -->
     <%- include('./master/scripts.ejs') %>
